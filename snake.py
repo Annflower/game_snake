@@ -6,29 +6,29 @@ import sys
 pygame.init()
 
 # Константы
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 600
-CELL_SIZE = 20
-CELL_NUMBER_X = WINDOW_WIDTH // CELL_SIZE
-CELL_NUMBER_Y = WINDOW_HEIGHT // CELL_SIZE
+window_width = 600
+window_height = 600
+cell_size = 20
+cell_number_x = window_width // cell_size
+cell_number_y = window_height // cell_size
 
 # Цвета (RGB)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-DARK_GREEN = (0, 200, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
+black = (0, 0, 0)
+white = (255, 255, 255)
+green = (0, 255, 0)
+dark_green = (0, 200, 0)
+red = (255, 0, 0)
+blue = (0, 0, 255)
 
 # Настройки окна
-screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Змейка")
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36)
 
 class Snake:
     def __init__(self):
-        self.body = [(CELL_NUMBER_X // 2, CELL_NUMBER_Y // 2)]
+        self.body = [(cell_number_x // 2, cell_number_y // 2)]
         self.direction = (1, 0)  # вправо
         self.grow_flag = False
     
@@ -49,8 +49,8 @@ class Snake:
     def check_collision(self):
         head = self.body[0]
         # Столкновение со стенами
-        if (head[0] < 0 or head[0] >= CELL_NUMBER_X or
-            head[1] < 0 or head[1] >= CELL_NUMBER_Y):
+        if (head[0] < 0 or head[0] >= cell_number_x or
+            head[1] < 0 or head[1] >= cell_number_y):
             return True
         # Столкновение с собой
         if head in self.body[1:]:
@@ -59,12 +59,12 @@ class Snake:
     
     def draw(self):
         for segment in self.body:
-            pygame.draw.rect(screen, GREEN, 
-                           (segment[0] * CELL_SIZE, segment[1] * CELL_SIZE, 
-                            CELL_SIZE, CELL_SIZE))
-            pygame.draw.rect(screen, DARK_GREEN, 
-                           (segment[0] * CELL_SIZE, segment[1] * CELL_SIZE, 
-                            CELL_SIZE, CELL_SIZE), 2)
+            pygame.draw.rect(screen, green, 
+                           (segment[0] * cell_size, segment[1] * cell_size, 
+                            cell_size, cell_size))
+            pygame.draw.rect(screen, dark_green, 
+                           (segment[0] * cell_size, segment[1] * cell_size, 
+                            cell_size, cell_size), 2)
 
 class Food:
     def __init__(self, snake_body):
@@ -72,28 +72,28 @@ class Food:
     
     def random_position(self, snake_body):
         while True:
-            pos = (random.randint(0, CELL_NUMBER_X - 1),
-                  random.randint(0, CELL_NUMBER_Y - 1))
+            pos = (random.randint(0, cell_number_x - 1),
+                  random.randint(0, cell_number_y - 1))
             if pos not in snake_body:
                 return pos
     
     def draw(self):
-        pygame.draw.rect(screen, RED, 
-                        (self.position[0] * CELL_SIZE, self.position[1] * CELL_SIZE,
-                         CELL_SIZE, CELL_SIZE))
+        pygame.draw.rect(screen, red, 
+                        (self.position[0] * cell_size, self.position[1] * cell_size,
+                         cell_size, cell_size))
 
 def show_game_over(score):
-    screen.fill(BLACK)
-    game_over_text = font.render("GAME OVER", True, RED)
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    restart_text = font.render("Press SPACE to restart or ESC to quit", True, WHITE)
+    screen.fill(black)
+    game_over_text = font.render("Вы проиграли!", True, red)
+    score_text = font.render(f"Очки: {score}", True, white)
+    restart_text = font.render("Нажмите пробел, чтобы начать заново", True, white)
     
-    screen.blit(game_over_text, (WINDOW_WIDTH // 2 - game_over_text.get_width() // 2, 
-                                 WINDOW_HEIGHT // 2 - 60))
-    screen.blit(score_text, (WINDOW_WIDTH // 2 - score_text.get_width() // 2, 
-                            WINDOW_HEIGHT // 2 - 20))
-    screen.blit(restart_text, (WINDOW_WIDTH // 2 - restart_text.get_width() // 2, 
-                              WINDOW_HEIGHT // 2 + 20))
+    screen.blit(game_over_text, (window_width // 2 - game_over_text.get_width() // 2, 
+                                 window_height // 2 - 60))
+    screen.blit(score_text, (window_width // 2 - score_text.get_width() // 2, 
+                            window_height // 2 - 20))
+    screen.blit(restart_text, (window_width // 2 - restart_text.get_width() // 2, 
+                              window_height // 2 + 20))
     
     pygame.display.flip()
     
@@ -154,12 +154,12 @@ def main():
             food = Food(snake.body)
         
         # Отрисовка
-        screen.fill(BLACK)
+        screen.fill(black)
         snake.draw()
         food.draw()
         
         # Отображение счета
-        score_text = font.render(f"Score: {score}", True, WHITE)
+        score_text = font.render(f"Score: {score}", True, white)
         screen.blit(score_text, (10, 10))
         
         pygame.display.flip()
@@ -170,4 +170,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
